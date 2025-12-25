@@ -1,17 +1,77 @@
 package com.nailong.websdk.exception;
 
 import com.nailong.websdk.pojo.HttpRsp;
-import com.nailong.websdk.utils.RspToJsonUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.BindException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(FileNotFoundException.class)
+    public Object handleFileNotFoundException(FileNotFoundException e) {
+        log.error("文件未找到异常 -> {}", e.getMessage());
+        log.debug("", e);
+        return processResponse(new BadRequestException("文件未找到异常"));
+    }
+
+    @ExceptionHandler(IOException.class)
+    public Object handleIOException(IOException e) {
+        log.error("IO 异常 -> {}", e.getMessage());
+        log.debug("", e);
+        return processResponse(new BadRequestException("IO 异常"));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public HttpRsp handleValidationException(MethodArgumentNotValidException e) {
-        // 统一处理参数校验异常
-        return RspToJsonUtils.error("参数校验失败", e);
+    public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        String msg = e.getBindingResult().getAllErrors()
+                .stream().map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining("|"));
+        log.error("请求参数校验异常 -> {}", msg);
+        log.debug("", e);
+        return processResponse(new BadRequestException(msg));
+    }
+
+    @ExceptionHandler(BindException.class)
+    public Object handleBindException(BindException e) {
+        log.error("请求参数绑定异常 ->BindException， {}", e.getMessage());
+        log.debug("", e);
+        return processResponse(new BadRequestException("请求参数格式错误"));
+    }
+
+    @ExceptionHandler(MethodArgumentConversionNotSupportedException.class)
+    public Object handleMethodArgumentConversionNotSupportedException(MethodArgumentConversionNotSupportedException e) {
+        log.error("请求方法参数转换不支持异常 -> MethodArgumentConversionNotSupportedException，{}", e.getMessage());
+        log.debug("", e);
+        return processResponse(new BadRequestException("请求方法参数处理异常"));
+    }
+
+    @ExceptionHandler(CommonException.class)
+    public Object handleBadRequestException(CommonException e) {
+        log.error("自定义异常 -> {} , 异常原因：{}  ", e.getClass().getName(), e.getMessage());
+        log.debug("", e);
+        return processResponse(e);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Object handleRuntimeException(Exception e) {
+        log.error("其他异常 : ", e);
+        return processResponse(new CommonException("服务器内部异常", 500));
+    }
+
+    private ResponseEntity<Object> processResponse(CommonException e) {
+        return ResponseEntity
+                .status(e.getCode())
+                .body(HttpRsp.error(e));
     }
 }

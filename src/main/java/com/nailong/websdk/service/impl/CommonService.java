@@ -1,10 +1,9 @@
 package com.nailong.websdk.service.impl;
 
-import com.nailong.websdk.common.JsonConfigHelper;
 import com.nailong.websdk.pojo.Authorization;
 import com.nailong.websdk.pojo.HttpRsp;
 import com.nailong.websdk.service.ICommonService;
-import com.nailong.websdk.utils.RspToJsonUtils;
+import com.nailong.websdk.utils.FileUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -14,60 +13,30 @@ import java.io.IOException;
 @Log4j2
 public class CommonService implements ICommonService {
     @Override
-    public HttpRsp queryClientCode() {
-        HttpRsp rsp;
-        try {
-            rsp = JsonConfigHelper.readClientCodeFile();
-        } catch (IOException e) {
-            rsp = RspToJsonUtils.error("发生 IO 异常", e);
-        }
-
-        return rsp;
+    public HttpRsp queryClientCode() throws IOException {
+        return FileUtils.readClientCodeFile();
     }
 
     @Override
-    public HttpRsp queryClientConfig(Authorization authorization) {
-        HttpRsp rsp;
+    public HttpRsp queryClientConfig(Authorization authorization) throws IOException {
+        Authorization.Head head = authorization.getHead();
         String region;
 
-        Authorization.Head head = authorization.getHead();
-        String pid = head.getPID();
-        String channel = head.getChannel();
-
-        switch (pid) {
-            case "CN-NOVA" -> {
-                if (channel.equals("bilibili")) {
-                    region = "bili";
-                    break;
-                }
-                region = "cn";
+        if (head.getPID().equals("CN-NOVA")) {
+            if (head.getChannel().equals("bilibili")) {
+                region = "bili";
+                return FileUtils.readClientConfigFile(region);
             }
-            case "" -> {
-                // 只是为了不让 idea 警告
-                return null;
-            }
-            default -> region = "os";
+            region = "cn";
+        } else {
+            region = "os";
         }
 
-        try {
-            rsp = JsonConfigHelper.readClientConfigFile(region);
-        } catch (IOException e) {
-            rsp = RspToJsonUtils.error("发生 IO 异常", e);
-        }
-
-        return rsp;
+        return FileUtils.readClientConfigFile(region);
     }
 
     @Override
-    public HttpRsp queryVersion() {
-        HttpRsp rsp;
-
-        try {
-            rsp = JsonConfigHelper.readClientCommonVersion();
-        } catch (IOException e) {
-            rsp = RspToJsonUtils.error("发生 IO 异常", e);
-        }
-
-        return rsp;
+    public HttpRsp queryVersion() throws IOException {
+        return FileUtils.readClientCommonVersion();
     }
 }

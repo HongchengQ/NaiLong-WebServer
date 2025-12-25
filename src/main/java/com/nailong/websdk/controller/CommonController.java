@@ -3,13 +3,15 @@ package com.nailong.websdk.controller;
 import com.nailong.websdk.pojo.Authorization;
 import com.nailong.websdk.pojo.HttpRsp;
 import com.nailong.websdk.service.ICommonService;
-import com.nailong.websdk.utils.JsonUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/common", method = {RequestMethod.GET, RequestMethod.POST})
@@ -26,20 +28,27 @@ public class CommonController {
     private final ICommonService commonService;
 
     @RequestMapping(path = "/config")
-    public HttpRsp config(@RequestHeader("Authorization") String ctxAuthorization) {
-        Authorization authorization = JsonUtils.jsonToObject(ctxAuthorization, Authorization.class);
+    public HttpRsp config(HttpServletRequest handler) throws IOException {
+        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
 
         return commonService.queryClientConfig(authorization);
     }
 
     @RequestMapping(path = "/client-code")
-    public HttpRsp clientCode() {
+    public HttpRsp clientCode() throws IOException {
         return commonService.queryClientCode();
     }
 
     @RequestMapping(path = "/version")
-    public HttpRsp version() {
+    public HttpRsp version() throws IOException {
         return commonService.queryVersion();
+    }
+
+    @RequestMapping(path = "/test")
+    public String test(@RequestHeader("Authorization") Authorization ctxAuthorization) {
+        IO.println(ctxAuthorization.getSign());
+//        throw new Exception();
+        return "test";
     }
 
 }
