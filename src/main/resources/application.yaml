@@ -4,3 +4,22 @@ spring:
 
 server:
   port: 1178
+
+app:
+  gateServerMap:
+    cn:
+      ip: 192.168.1.4
+      port: 80
+      uri: /cn
+      useSSL: false
+      ossHost: "https://nova-static.yostar.cn"
+      bigVersion: 1.4
+      dataVersion: 70
+    tw:
+      ip: 127.0.0.1
+      port: 80
+      useSSL: false
+      uri: /tw
+      ossHost: "https://nova-static.stargazer-games.com"
+      bigVersion: 1.4
+      dataVersion: 70

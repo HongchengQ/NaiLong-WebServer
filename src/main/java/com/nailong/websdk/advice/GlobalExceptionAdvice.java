@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentConversionNotSupportedException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.exc.ValueInstantiationException;
 
@@ -22,11 +23,16 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionAdvice {
+    @ExceptionHandler(NoResourceFoundException.class)
+    public Object handleNoResourceFoundException(NoResourceFoundException e) {
+        log.warn("访问一个不存在的地址或资源 -> {}", e.getMessage());
+        return processResponse(new BadRequestException("试图访问一个不存在的地址或资源"));
+    }
 
     @ExceptionHandler(DatabindException.class)
     public Object handleDatabindException(DatabindException e) {
         log.error("json 解析异常 -> {}", e.getMessage());
-        return processResponse(new CommonException(e.getOriginalMessage(), 100400)) ;
+        return processResponse(new CommonException(e.getOriginalMessage(), 100400));
     }
 
     @ExceptionHandler(AuthorizationHeadException.class)

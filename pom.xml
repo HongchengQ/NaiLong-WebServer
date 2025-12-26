@@ -89,6 +89,18 @@
 			<artifactId>jackson-annotations</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk18on</artifactId>
+			<version>1.83</version>
+		</dependency>
+
+		<dependency>
+			<groupId>us.hebi.quickbuf</groupId>
+			<artifactId>quickbuf-runtime</artifactId>
+			<version>1.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

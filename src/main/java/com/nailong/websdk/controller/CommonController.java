@@ -29,8 +29,8 @@ public class CommonController {
 
     @RequestMapping(path = "/config")
     public HttpRsp config(HttpServletRequest handler) throws IOException {
+        // authorization 来自于拦截器中添加的属性 - authInfo
         Authorization authorization = (Authorization) handler.getAttribute("authInfo");
-
         return commonService.queryClientConfig(authorization);
     }
 
@@ -47,7 +47,6 @@ public class CommonController {
     @RequestMapping(path = "/test")
     public String test(@RequestHeader("Authorization") Authorization ctxAuthorization) {
         IO.println(ctxAuthorization.getSign());
-//        throw new Exception();
         return "test";
     }
 

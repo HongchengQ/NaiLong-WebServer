@@ -4,13 +4,11 @@ import com.nailong.websdk.pojo.Authorization;
 import com.nailong.websdk.pojo.HttpRsp;
 import com.nailong.websdk.service.ICommonService;
 import com.nailong.websdk.utils.FileUtils;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
-@Log4j2
 public class CommonService implements ICommonService {
     @Override
     public HttpRsp queryClientCode() throws IOException {
