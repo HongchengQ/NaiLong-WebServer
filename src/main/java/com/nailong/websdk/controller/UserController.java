@@ -1,11 +1,14 @@
 package com.nailong.websdk.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.nailong.websdk.pojo.HttpRsp;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user", method = {RequestMethod.GET, RequestMethod.POST})
+@RequiredArgsConstructor
 public class UserController {
     /*
         getApp().post("/user/detail", new UserLoginHandler());
@@ -16,13 +19,8 @@ public class UserController {
         getApp().post("/user/send-sms", new HttpJsonResponse("{\"Code\":200,\"Data\":{},\"Msg\":\"OK\"}"));
      */
 
-    @GetMapping
-    public String get(String key, String value) {
-        if (value == null) {
-            IO.println();
-            return "test";
-        }
-        return "666" + key;
+    @RequestMapping(path = "/send-sms")
+    public HttpRsp sendSms() {
+        return HttpRsp.ok();
     }
-
 }

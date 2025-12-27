@@ -4,13 +4,11 @@ import com.nailong.websdk.Pb;
 import com.nailong.websdk.utils.AeadHelper;
 import com.nailong.websdk.utils.Utils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/admin", method = {RequestMethod.GET, RequestMethod.POST})
 @RequiredArgsConstructor
-@Log4j2
 public class AdminController {
 
     @RequestMapping(path = "/decode_server_list")

@@ -58,6 +58,13 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+		<!-- 数据库 ORM -->
+		<dependency>
+			<groupId>org.babyfish.jimmer</groupId>
+			<artifactId>jimmer-spring-boot-starter</artifactId>
+			<version>0.9.119</version>
+		</dependency>
+
 		<!--Spring AOP 切面 模块 -->
 		<dependency>
 			<groupId>org.springframework</groupId>

@@ -4,7 +4,6 @@ import com.nailong.websdk.enums.HotFixLocalPathEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +17,8 @@ import java.util.Locale;
  * 这里逻辑比较简单 所以不用 service 处理了
  */
 @RestController
-@RequestMapping(value = "/res", method = {RequestMethod.GET})
+@RequestMapping(value = "/res", method = RequestMethod.GET)
 @RequiredArgsConstructor
-@Log4j2
 public class ResController {
     /*
         // https://nova-static.stellasora.global/

@@ -3,7 +3,6 @@ package com.nailong.websdk.controller;
 import com.nailong.websdk.service.IMetaService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +16,6 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 @RestController
 @RequestMapping(value = "/meta", method = {RequestMethod.GET})
 @RequiredArgsConstructor
-@Log4j2
 public class MetaController {
     /*
     // https://nova-static.stellasora.global/
