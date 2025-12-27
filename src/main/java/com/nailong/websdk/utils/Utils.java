@@ -1,5 +1,8 @@
 package com.nailong.websdk.utils;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class Utils {
     private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
 

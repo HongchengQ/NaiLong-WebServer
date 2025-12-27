@@ -9,7 +9,6 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class HttpRsp {
     private int Code;
     private Object Data;

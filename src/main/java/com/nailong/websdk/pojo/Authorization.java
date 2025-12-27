@@ -6,7 +6,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Authorization {
     @NonNull
     @JsonProperty("Head")

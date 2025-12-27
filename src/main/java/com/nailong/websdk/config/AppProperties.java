@@ -20,7 +20,7 @@ public class AppProperties {
         Integer port;
         String uri; // 附加在 ip 和 port 后的路径
         Boolean useSSL;
-        String ossHost; // 对象存储/cdn
+        String metaFileUrl; // 对象存储/cdn
         String bigVersion;
         Integer dataVersion;
 

@@ -1,70 +1,93 @@
 package com.nailong.websdk.service.impl;
 
-import com.nailong.websdk.Pb;
 import com.nailong.websdk.config.AppProperties;
 import com.nailong.websdk.config.AppProperties.GateServer;
+import com.nailong.websdk.enums.HotFixLocalPathEnum;
+import com.nailong.websdk.pojo.HotfixPatchList;
 import com.nailong.websdk.service.IMetaService;
 import com.nailong.websdk.utils.AeadHelper;
+import com.nailong.websdk.utils.FileUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 @Log4j2
 public class MetaService implements IMetaService {
-    static Map<String, byte[]> metaServerMap = new HashMap<>(5);
+    // key: region; 例如: cn, tw
+    static Map<String, byte[]> metaServerListMap = new HashMap<>(5);
+    // key: 热更枚举字段名; 例如: CN_Android, GLOBAL_Ios
+    static Map<String, byte[]> metaHotfixPatchListMap = new HashMap<>();
 
+    // config
     private final AppProperties appProperties;
 
-    /**
-     * 获取区服列表
-     * 但是客户端似乎是有问题 列表只能读取到第一个 后续无效
-     *
-     * @return String
-     */
-    public byte[] getServerList(String region) {
-        return metaServerMap.get(region);
+    @PostConstruct
+    public void init() {
+        initServerList();
+        initHotfixPatchList();
     }
 
-    @PostConstruct
-    public void initServerList() throws Exception {
+    public void initServerList() {
         Map<String, GateServer> gateServerList = appProperties.getGateServerMap();
 
         for (String name : gateServerList.keySet()) {
             GateServer gateServer = gateServerList.get(name);
 
-            if (metaServerMap.get(name) != null) {
+            if (metaServerListMap.get(name) != null) {
                 log.warn("重复加载区域 {} - gateServer，只能记录一次", name);
                 continue;
-            } else {
-                log.info("已预编译 ServerList：{} - {}", name, gateServer);
             }
 
-            metaServerMap.put(name, encodeRegionMeta(name, gateServer));
+            byte[] encodeRegionMetaBytes;
+            try {
+                encodeRegionMetaBytes = AeadHelper.encodeRegionMeta(name, gateServer);
+            } catch (Exception e) {
+                log.warn("{} 加载区服时发生错误", name, e);
+                continue;
+            }
+
+            metaServerListMap.put(name, encodeRegionMetaBytes);
+            log.info("已预编译区服列表：{} - {}", name, gateServer);
         }
     }
 
-    private byte[] encodeRegionMeta(String gateServerName, GateServer gateServer) throws Exception {
-        String address = gateServer.getComboAddress();
+    public void initHotfixPatchList() {
+        for (HotFixLocalPathEnum hotFixLocalPathEnum : HotFixLocalPathEnum.values()) {
+            String name = hotFixLocalPathEnum.name();
+            String path = hotFixLocalPathEnum.getLocalPath();
+            String region = hotFixLocalPathEnum.getRegion();
 
-        // 这里需要注意 虽然名字叫list 但是客户端只认第一个
-        Pb.ServerListMeta meta = Pb.ServerListMeta.newInstance()
-                .setVersion(gateServer.getDataVersion())
-                .setReportEndpoint(address + "/report");
+            byte[] encryptPatchBytes;
+            try {
+                HotfixPatchList hotfixPatchList = FileUtils.readHotFixPatch(path);
+                byte[] patchBytes = hotfixPatchList.toProto().toByteArray();
+                encryptPatchBytes = AeadHelper.encryptCBC(patchBytes, region);
+            } catch (Exception e) {
+                log.warn("{} 加载热更清单时发生错误", name, e);
+                continue;
+            }
 
-        var agent = Pb.ServerAgent.newInstance()
-                .setName(gateServerName)
-                .setAddr(address + "/agent-zone-" + gateServer.getUri())
-                .setStatus(1)
-                .setZone(1);
+            metaHotfixPatchListMap.put(name, encryptPatchBytes);
+            log.info("已预编译热更清单：{}", name);
+        }
+    }
 
-        meta.addAgent(agent);
+    @Override
+    public byte[] getServerList(String region) {
+        return metaServerListMap.get(region);
+    }
 
-        return AeadHelper.encryptCBC(meta.toByteArray(), gateServerName) ;
+    @Override
+    public byte[] getPlatformPatch(String region, String platform) {
+        // 组装平台和区域为 metaHotfixPatchListMap 的 key
+        String mapKey = region.toUpperCase(Locale.ROOT) + "_" + platform;
+        return metaHotfixPatchListMap.get(mapKey);
     }
 }

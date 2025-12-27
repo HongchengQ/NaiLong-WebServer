@@ -1,6 +1,8 @@
 package com.nailong.websdk.utils;
 
 
+import com.nailong.websdk.Pb;
+import com.nailong.websdk.config.AppProperties;
 import org.bouncycastle.asn1.nist.NISTNamedCurves;
 import org.bouncycastle.asn1.sec.SECNamedCurves;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -42,6 +44,25 @@ public class AeadHelper {
 
         serverMetaKeyMap.put("cn", "Xf&FRcsYm48cJ2A@".getBytes(StandardCharsets.US_ASCII));
         serverGarbleKeyMap.put("cn", "QW*Wi7fKjLk!T82Qf2nEGZA%nSC!D9qV".getBytes(StandardCharsets.US_ASCII));
+    }
+
+    public static byte[] encodeRegionMeta(String gateServerName, AppProperties.GateServer gateServer) throws Exception {
+        String address = gateServer.getComboAddress();
+
+        // 这里需要注意 虽然名字叫list 但是客户端只认第一个
+        Pb.ServerListMeta meta = Pb.ServerListMeta.newInstance()
+                .setVersion(gateServer.getDataVersion())
+                .setReportEndpoint(address + "/report");
+
+        var agent = Pb.ServerAgent.newInstance()
+                .setName(gateServerName)
+                .setAddr(address + "/agent-zone-" + gateServer.getUri())
+                .setStatus(1)
+                .setZone(1);
+
+        meta.addAgent(agent);
+
+        return AeadHelper.encryptCBC(meta.toByteArray(), gateServerName);
     }
 
     public static byte[] generateBytes(int size) {

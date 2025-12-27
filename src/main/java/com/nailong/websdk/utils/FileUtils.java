@@ -1,6 +1,8 @@
 package com.nailong.websdk.utils;
 
+import com.nailong.websdk.pojo.HotfixPatchList;
 import com.nailong.websdk.pojo.HttpRsp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
@@ -10,6 +12,7 @@ import java.io.InputStreamReader;
 
 import static com.nailong.websdk.utils.JsonUtils.parseJsonStrToObject;
 
+@Slf4j
 public class FileUtils {
     /**
      * 使用 Spring 提供的 ClassPathResource 获取文件内容
@@ -70,5 +73,16 @@ public class FileUtils {
 
     public static HttpRsp readClientCommonVersion() throws IOException {
         return fileToObject("common/version.json", HttpRsp.class);
+    }
+
+    /**
+     * 我们需要验证文件是合规的对象
+     *
+     * @param path ClassPathResource
+     * @return HotfixPatchList
+     * @throws IOException IO 异常
+     */
+    public static HotfixPatchList readHotFixPatch(String path) throws IOException {
+        return fileToObject(path, HotfixPatchList.class);
     }
 }
