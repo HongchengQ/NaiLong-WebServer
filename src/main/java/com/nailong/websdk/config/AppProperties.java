@@ -42,10 +42,6 @@ public class AppProperties {
                 }
             }
 
-            if (uri != null) {
-                url.append(uri);
-            }
-
             return url.toString();
         }
     }

@@ -20,11 +20,6 @@ import java.util.Locale;
 @RequestMapping(value = "/res", method = RequestMethod.GET)
 @RequiredArgsConstructor
 public class ResController {
-    /*
-        // https://nova-static.stellasora.global/
-        getApp().get("/res/**\/", new HotFixHandler());
-    */
-
     @RequestMapping(path = "/win/**")
     public ModelAndView resWinRedirect(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
         String region = req.getAttribute("X-Region").toString();

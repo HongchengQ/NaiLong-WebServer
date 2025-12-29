@@ -6,6 +6,7 @@ import com.nailong.websdk.exception.CommonException;
 import com.nailong.websdk.domain.HttpRsp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,12 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionAdvice {
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Object handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.warn("请求 body 异常 -> {}", e.getMessage());
+        return processResponse(new BadRequestException("无法解析请求消息内容"));
+    }
+
     @ExceptionHandler(NoResourceFoundException.class)
     public Object handleNoResourceFoundException(NoResourceFoundException e) {
         log.warn("访问一个不存在的地址或资源 -> {}", e.getMessage());

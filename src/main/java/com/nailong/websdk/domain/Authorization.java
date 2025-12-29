@@ -3,6 +3,8 @@ package com.nailong.websdk.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.PrimitiveIterator;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -54,5 +56,11 @@ public class Authorization {
         @NonNull
         @JsonProperty("Time")
         private Long time;
+
+        @JsonProperty("UId")
+        private Long uid;
+
+        @JsonProperty("Token")
+        private String token;
     }
 }

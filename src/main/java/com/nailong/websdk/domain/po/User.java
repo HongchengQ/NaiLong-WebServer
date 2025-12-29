@@ -6,10 +6,10 @@ import org.jspecify.annotations.Nullable;
 /*
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `open_id` varchar(255) NOT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `nick_name` varchar(255) DEFAULT NULL,
-  `login_token` varchar(255) DEFAULT NULL,
+  `open_id` varchar(32) NOT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `nick_name` varchar(32) DEFAULT NULL,
+  `login_token` varchar(88) DEFAULT NULL,
   `created_at` int DEFAULT NULL,
   PRIMARY KEY (`id` DESC,`open_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

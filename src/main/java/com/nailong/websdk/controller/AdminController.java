@@ -24,45 +24,4 @@ public class AdminController {
 
         return Pb.ServerListMeta.parseFrom(serverListBytes).toString();
     }
-
-    @RequestMapping(path = "/test")
-    public String test() {
-        UserInput userInput = new UserInput.Builder()
-                .openId("111")
-                .password("111")
-                .nickName("111")
-                .loginToken("111")
-//                .createdAt(0L)
-                .build();
-        User book = UserDraft.$.produce(draft -> draft
-                .setOpenId("222")
-                .setPassword("222")
-                .setNickName("222")
-                .setLoginToken("222")
-//                .setCreatedAt(0L)
-        );
-
-        System.out.println(saveUserInput(userInput));
-        System.out.println(saveUser(book));
-
-        return "test";
-    }
-
-    public long saveUser(User user) {
-        return sqlClient
-                .getEntities()
-                .save(user)
-                .getModifiedEntity()
-                // 如果`user.id`为null，返回自动分配的id
-                .id();
-    }
-
-    public long saveUserInput(UserInput user) {
-        return sqlClient
-                .getEntities()
-                .save(user)
-                .getModifiedEntity()
-                // 如果`user.id`为null，返回自动分配的id
-                .id();
-    }
 }

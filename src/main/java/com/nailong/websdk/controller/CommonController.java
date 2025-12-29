@@ -16,12 +16,6 @@ import java.io.IOException;
 @RequestMapping(value = "/common", method = {RequestMethod.GET, RequestMethod.POST})
 @RequiredArgsConstructor
 public class CommonController {
-    /*
-    // https://en-sdk-api.yostarplat.com/
-    getApp().post("/common/config", new CommonConfigHandler(this));
-    getApp().post("/common/client-code", new CommonClientCodeHandler());
-    getApp().post("/common/version", new HttpJsonResponse("{\"Code\":200,\"Data\":{\"Agreement\":[{\"Version\":\"0.1\",\"Type\":\"user_agreement\",\"Title\":\"用户协议\",\"Content\":\"\",\"Lang\":\"en\"},{\"Version\":\"0.1\",\"Type\":\"privacy_agreement\",\"Title\":\"隐私政策\",\"Content\":\"\",\"Lang\":\"en\"}],\"ErrorCode\":\"4.4\"},\"Msg\":\"OK\"}"));
-    */
 
     private final ICommonService commonService;
 

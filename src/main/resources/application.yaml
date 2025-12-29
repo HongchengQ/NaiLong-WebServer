@@ -19,18 +19,18 @@ jimmer:
 app:
   gateServerMap:
     cn:
-      ip: 192.168.1.4
+      ip: 127.0.0.1
       port: 80
-      uri: /cn
+      uri: cn
       useSSL: false
       ossHost: "https://nova-static.yostar.cn"
       bigVersion: 1.4
-      dataVersion: 70
+      dataVersion: 76
     tw:
       ip: 127.0.0.1
       port: 80
       useSSL: false
-      uri: /tw
+      uri: tw
       ossHost: "https://nova-static.stargazer-games.com"
       bigVersion: 1.4
-      dataVersion: 70
+      dataVersion: 76

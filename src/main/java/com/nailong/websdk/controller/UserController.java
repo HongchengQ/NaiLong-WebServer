@@ -1,26 +1,62 @@
 package com.nailong.websdk.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nailong.websdk.domain.Authorization;
 import com.nailong.websdk.domain.HttpRsp;
+import com.nailong.websdk.domain.LoginBody;
+import com.nailong.websdk.domain.UserSetDataRequest;
+import com.nailong.websdk.domain.vo.UserVo;
+import com.nailong.websdk.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.jspecify.annotations.Nullable;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping(value = "/user", method = {RequestMethod.GET, RequestMethod.POST})
 @RequiredArgsConstructor
 public class UserController {
-    /*
-        getApp().post("/user/detail", new UserLoginHandler());
-        getApp().post("/user/set", new UserSetDataHandler());
-        getApp().post("/user/set-info", new UserSetDataHandler()); // CN
-        getApp().post("/user/login", new UserLoginHandler());
-        getApp().post("/user/quick-login", new UserLoginHandler());
-        getApp().post("/user/send-sms", new HttpJsonResponse("{\"Code\":200,\"Data\":{},\"Msg\":\"OK\"}"));
-     */
+
+    private final IUserService userService;
+
+    @RequestMapping(path = {"/login", "/quick-login", "/detail"})
+    public HttpRsp login(HttpServletRequest handler, @Nullable @RequestBody LoginBody body) throws NoSuchAlgorithmException {
+        // authorization 来自于拦截器中添加的属性 - authInfo
+        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
+
+        // 将认证信息移交给 LoginBody
+        if (body != null) {
+            body.setAuthorization(authorization);
+        }
+
+        UserVo<Object> userVo = userService.getOrCreateUserResult(body);
+        if (userVo == null) {
+            return HttpRsp.error(100403, "Error");
+        }
+
+        return HttpRsp.ok(userVo);
+    }
 
     @RequestMapping(path = "/send-sms")
     public HttpRsp sendSms() {
+        return HttpRsp.ok();
+    }
+
+    @RequestMapping(path = {"/set", "/set-info"})
+    public HttpRsp infoSet(HttpServletRequest handler, @RequestBody UserSetDataRequest body) {
+        // authorization 来自于拦截器中添加的属性 - authInfo
+        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
+
+        int retCode = userService.getSetInfoRetCode(authorization, body);
+
+        if (retCode != 0) {
+            return HttpRsp.error(retCode, "Error");
+        }
+
         return HttpRsp.ok();
     }
 }

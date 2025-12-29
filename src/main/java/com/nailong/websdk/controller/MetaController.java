@@ -17,13 +17,6 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 @RequestMapping(value = "/meta", method = {RequestMethod.GET})
 @RequiredArgsConstructor
 public class MetaController {
-    /*
-    // https://nova-static.stellasora.global/
-    getApp().get("/meta/serverlist.html", new MetaServerlistHandler(this));
-    getApp().get("/meta/and.html", new MetaPatchListHandler(this, "Android"));
-    getApp().get("/meta/win.html", new MetaPatchListHandler(this, "Win"));
-    getApp().get("/meta/ios.html", new MetaPatchListHandler(this, "Ios"));
-    */
 
     private final IMetaService metaService;
 

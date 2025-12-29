@@ -8,4 +8,5 @@
      <tree path="/src/main/java/com/nailong/websdk/interceptor" title="拦截器"/>
      <tree path="/src/main/java/com/nailong/websdk/exception" title="自定义异常"/>
      <tree path="/src/main/java/com/nailong/websdk/domain/po" title="数据库相关对象"/>
+     <tree path="/src/main/java/com/nailong/websdk/domain/vo" title="返回给前端的封装数据"/>
  </trees>
