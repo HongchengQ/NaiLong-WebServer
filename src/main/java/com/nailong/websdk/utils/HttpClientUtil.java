@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class HttpClientUtil {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private static final RestTemplate restTemplate = new RestTemplate();
 
     public void sendCommandToServer(String server, String token, String commandName, Object userObject) {
         HttpHeaders headers = new HttpHeaders();
