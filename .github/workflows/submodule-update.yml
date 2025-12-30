@@ -5,6 +5,9 @@ on:
     - cron: '0 3 * * *'  # 每日凌晨3点执行
   workflow_dispatch:  # 允许手动触发
 
+permissions:
+  contents: write  # 显式授予写入权限
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -13,15 +16,17 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
-          
+          # 使用自动生成的令牌
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update submodules
         run: |
           git submodule update --recursive --remote
-          
-      - name: Commit changes
+
+      - name: Commit and push changes
         run: |
-          git config --global user.name "Automated Bot"
-          git config --global user.email "bot@example.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Auto-update submodules" || echo "No changes to commit"
           git push
