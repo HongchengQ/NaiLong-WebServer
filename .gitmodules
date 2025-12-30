@@ -1,0 +1,4 @@
+[submodule "src/main/resources/hot_fix"]
+	path = src/main/resources/hot_fix
+	url = https://github.com/HongchengQ/xt_hotfix_diff.git
+	branch = main
