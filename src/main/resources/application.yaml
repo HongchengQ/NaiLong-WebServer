@@ -1,15 +1,17 @@
 spring:
   application:
     name: websdk
+#  数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jimmer_demo
     username: root
     password: root
-
+# 程序启动端口
 server:
   port: 1178
 
+# 这里不懂不要动
 jimmer:
   dialect: org.babyfish.jimmer.sql.dialect.MySqlDialect
   show-sql: true
@@ -17,22 +19,26 @@ jimmer:
   database-validation-mode: ERROR
 
 app:
+#  游戏服列表 最多配置五个区域 [cn tw jp kr global]
   gateServerMap:
     cn:
       ip: 127.0.0.1
       port: 80
-      uri: cn
+      uri: cn # 游戏服附加路径 不知道怎么填就填1
       useSSL: false
-      ossHost: "https://nova-static.yostar.cn"
-      bigVersion: 1.4
-      dataVersion: 76
+      # yostar DMCA😭
+      ossHost: "https://nova-static.DMCA😭.cn" # 大文件资源存放地址 用于热更新
+      bigVersion: 1.4 # 大版本号
+      dataVersion: 76 # 小版本号
     tw:
       ip: 127.0.0.1
       port: 80
       useSSL: false
       uri: tw
-      ossHost: "https://nova-static.stargazer-games.com"
+      # stargazer-games DMCA😭
+      ossHost: "https://nova-static.DMCA😭.com"
       bigVersion: 1.4
       dataVersion: 76
+# 以下两个是配合 nebula 游戏服的设置，没有这个需求的话就改成空字符串
   nebulaCommandServer: "http://127.0.0.1:80/api/command"
   nebulaCommandServerAuthToken: "HJHASDPIIQWEASDHHAN"
