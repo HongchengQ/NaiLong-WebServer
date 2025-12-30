@@ -5,13 +5,11 @@ import com.nailong.websdk.domain.Authorization;
 import com.nailong.websdk.domain.LoginBody;
 import com.nailong.websdk.domain.UserSetDataRequest;
 import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.po.UserDraft;
 import com.nailong.websdk.domain.vo.UserVo;
 import com.nailong.websdk.service.IUserService;
 import com.nailong.websdk.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;

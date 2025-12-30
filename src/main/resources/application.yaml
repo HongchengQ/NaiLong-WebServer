@@ -34,3 +34,5 @@ app:
       ossHost: "https://nova-static.stargazer-games.com"
       bigVersion: 1.4
       dataVersion: 76
+  nebulaCommandServer: "http://127.0.0.1:80/api/command"
+  nebulaCommandServerAuthToken: "HJHASDPIIQWEASDHHAN"

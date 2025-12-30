@@ -27,4 +27,13 @@ public class JsonUtils {
 
         return jsonMapper.readValue(jsonStr, clazz);
     }
+
+    public static String toJson(Object obj) {
+        try {
+            JsonMapper jsonMapper = new JsonMapper();
+            return jsonMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert object to JSON", e);
+        }
+    }
 }
