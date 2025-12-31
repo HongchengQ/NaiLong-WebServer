@@ -13,6 +13,7 @@ public class AppProperties {
     private Map<String, GateServer> gateServerMap;
     private String nebulaCommandServer;
     private String nebulaCommandServerAuthToken;
+    private String defaultRegion;
 
     @Data
     public static class GateServer {

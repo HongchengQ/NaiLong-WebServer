@@ -14,7 +14,7 @@ public class UserUtils {
      * @return 40位token，它看起来像16进制
      */
     public static String createSessionKey(String accountUid) throws NoSuchAlgorithmException {
-        byte[] random = new byte[8];
+        byte[] random = new byte[64];
 
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(random);
@@ -27,7 +27,7 @@ public class UserUtils {
     }
 
     public static String createSessionKey(LoginBodyDto loginBodyDto) throws NoSuchAlgorithmException {
-        byte[] random = new byte[8];
+        byte[] random = new byte[64];
 
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(random);

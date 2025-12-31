@@ -12,6 +12,7 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import static com.nailong.websdk.enums.ServletAttributeEnum.AUTH_INFO;
 
 @RestController
 @RequestMapping(value = "/user", method = {RequestMethod.GET, RequestMethod.POST})
@@ -23,7 +24,7 @@ public class UserController {
     @RequestMapping(path = {"/login", "/quick-login", "/detail"})
     public HttpRsp login(HttpServletRequest handler, @Nullable @RequestBody LoginBodyDto body) throws NoSuchAlgorithmException {
         // authorization 来自于拦截器中添加的属性 - authInfo
-        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute("authInfo");
+        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute(AUTH_INFO.getStr());
 
         // 将认证信息移交给 LoginBody
         if (body != null) {
@@ -46,7 +47,7 @@ public class UserController {
     @RequestMapping(path = {"/set", "/set-info"})
     public HttpRsp infoSet(HttpServletRequest handler, @RequestBody UserSetDataBodyDto body) {
         // authorization 来自于拦截器中添加的属性 - authInfo
-        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute("authInfo");
+        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute(AUTH_INFO.getStr());
 
         int retCode = userService.getSetInfoRetCode(authorizationDto, body);
 

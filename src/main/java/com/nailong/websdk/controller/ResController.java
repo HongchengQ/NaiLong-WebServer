@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Locale;
 
+import static com.nailong.websdk.enums.ServletAttributeEnum.REGION;
+
 /**
  * 将超大文件重定向到 cdn 或 oss
  * 这里逻辑比较简单 所以不用 service 处理了
@@ -22,7 +24,7 @@ import java.util.Locale;
 public class ResController {
     @RequestMapping(path = "/win/**")
     public ModelAndView resWinRedirect(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-        String region = req.getAttribute("X-Region").toString();
+        String region = (String) req.getAttribute(REGION.getStr());
         // region 转大写
         String platform = region.toUpperCase(Locale.ROOT) + "_" + "Win";
         String url = HotFixLocalPathEnum.valueOf(platform).getOssHost();
@@ -33,7 +35,7 @@ public class ResController {
 
     @RequestMapping(path = "/and/**")
     public ModelAndView resAndroidRedirect(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-        String region = req.getAttribute("X-Region").toString();
+        String region = (String) req.getAttribute(REGION.getStr());
         String platform = region.toUpperCase(Locale.ROOT) + "_" + "Android";
         String url = HotFixLocalPathEnum.valueOf(platform).getOssHost();
 
@@ -43,7 +45,7 @@ public class ResController {
 
     @RequestMapping(path = "/ios/**")
     public ModelAndView resIosRedirect(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-        String region = req.getAttribute("X-Region").toString();
+        String region = (String) req.getAttribute(REGION.getStr());
         String platform = region.toUpperCase(Locale.ROOT) + "_" + "Ios";
         String url = HotFixLocalPathEnum.valueOf(platform).getOssHost();
 

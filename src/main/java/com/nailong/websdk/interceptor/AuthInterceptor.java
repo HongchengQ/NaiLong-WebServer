@@ -10,6 +10,8 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import static com.nailong.websdk.enums.ServletAttributeEnum.AUTH_INFO;
+
 @Component
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
@@ -20,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             @NonNull HttpServletResponse response,
             @NonNull Object handler) {
 
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(AUTH_INFO.getStr());
 
         // 解析并验证
         AuthorizationDto auth = JsonUtils.parseJsonStrToObject(authHeader, AuthorizationDto.class);
@@ -29,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         // 将解析后的对象放入request attribute
-        request.setAttribute("authInfo", auth);
+        request.setAttribute(AUTH_INFO.getStr(), auth);
         return true;
     }
 }

@@ -11,7 +11,7 @@ spring:
 server:
   port: 1178
 
-# 这里不懂不要动
+# 数据库 orm 配置
 jimmer:
   dialect: org.babyfish.jimmer.sql.dialect.MySqlDialect
   show-sql: true
@@ -33,9 +33,11 @@ app:
       gateServerAddress: "http://127.0.0.1/agent-zone-tw"
       reportServerAddress: "http://127.0.0.1/report"
       bigVersion: 1.4
-      dataVersion: 76
+      dataVersion: 77
       statusCode: 1
       zoneId: 1
-# 以下两个是配合 nebula 游戏服的设置，没有这个需求的话就改成空字符串
+  # 以下两个是配合 nebula 游戏服的设置，没有这个需求的话就改成空字符串
   nebulaCommandServer: "http://127.0.0.1:80/api/command"
   nebulaCommandServerAuthToken: "HJHASDPIIQWEASDHHAN"
+  # 没有网关为请求添加区域头信息时生效
+  defaultRegion: "cn"

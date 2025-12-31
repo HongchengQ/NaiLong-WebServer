@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.nailong.websdk.enums.ServletAttributeEnum.REGION;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 
 /**
@@ -26,8 +27,12 @@ public class MetaController {
     @RequestMapping(path = "/serverlist.html")
     public ResponseEntity<byte[]> serverListHtml(HttpServletRequest req) {
         // region 来自于拦截器中添加的属性 - X-Region
-        String region = (String) req.getAttribute("X-Region");
-        return ResponseEntity.ok().contentType(APPLICATION_OCTET_STREAM).body(metaService.getServerList(region));
+        String region = (String) req.getAttribute(REGION.getStr());
+
+        return ResponseEntity
+                .ok()
+                .contentType(APPLICATION_OCTET_STREAM)
+                .body(metaService.getServerList(region));
     }
 
     /**
@@ -35,29 +40,30 @@ public class MetaController {
      */
     @RequestMapping(path = "/serverlist")
     public byte[] serverList(HttpServletRequest req) {
-        // region 来自于拦截器中添加的属性 - X-Region
-        String region = (String) req.getAttribute("X-Region");
-        return metaService.getServerList(region);
+        return metaService.getServerList(
+                // 来自于拦截器中添加的属性 - X-Region
+                (String) req.getAttribute(REGION.getStr())
+        );
     }
 
     @RequestMapping(path = "/and.html")
     public byte[] androidPatches(HttpServletRequest req) {
         // region 来自于拦截器中添加的属性 - X-Region
-        String region = (String) req.getAttribute("X-Region");
+        String region = (String) req.getAttribute(REGION.getStr());
         return metaService.getPlatformPatch(region, "Android");
     }
 
     @RequestMapping(path = "/win.html")
     public byte[] winPatches(HttpServletRequest req) {
         // region 来自于拦截器中添加的属性 - X-Region
-        String region = (String) req.getAttribute("X-Region");
+        String region = (String) req.getAttribute(REGION.getStr());
         return metaService.getPlatformPatch(region, "Win");
     }
 
     @RequestMapping(path = "ios.html")
     public byte[] iosPatches(HttpServletRequest req) {
         // region 来自于拦截器中添加的属性 - X-Region
-        String region = (String) req.getAttribute("X-Region");
+        String region = (String) req.getAttribute(REGION.getStr());
         return metaService.getPlatformPatch(region, "Ios");
     }
 
