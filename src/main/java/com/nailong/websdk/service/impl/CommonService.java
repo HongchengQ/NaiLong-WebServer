@@ -1,7 +1,7 @@
 package com.nailong.websdk.service.impl;
 
-import com.nailong.websdk.domain.Authorization;
-import com.nailong.websdk.domain.HttpRsp;
+import com.nailong.websdk.model.dto.AuthorizationDto;
+import com.nailong.websdk.model.HttpRsp;
 import com.nailong.websdk.service.ICommonService;
 import com.nailong.websdk.utils.FileUtils;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class CommonService implements ICommonService {
     }
 
     @Override
-    public HttpRsp queryClientConfig(Authorization authorization) throws IOException {
-        Authorization.Head head = authorization.getHead();
+    public HttpRsp queryClientConfig(AuthorizationDto authorizationDto) throws IOException {
+        AuthorizationDto.Head head = authorizationDto.getHead();
         String region;
 
         if (head.getPid().equals("CN-NOVA")) {

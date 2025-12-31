@@ -1,7 +1,7 @@
 package com.nailong.websdk.interceptor;
 
 import com.nailong.websdk.exception.AuthorizationHeadException;
-import com.nailong.websdk.domain.Authorization;
+import com.nailong.websdk.model.dto.AuthorizationDto;
 import com.nailong.websdk.utils.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String authHeader = request.getHeader("Authorization");
 
         // 解析并验证
-        Authorization auth = JsonUtils.parseJsonStrToObject(authHeader, Authorization.class);
+        AuthorizationDto auth = JsonUtils.parseJsonStrToObject(authHeader, AuthorizationDto.class);
         if (auth == null) {
             throw new AuthorizationHeadException("参数有误:Authorization不能为空");
         }

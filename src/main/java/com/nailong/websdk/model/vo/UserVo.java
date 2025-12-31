@@ -1,4 +1,4 @@
-package com.nailong.websdk.domain.vo;
+package com.nailong.websdk.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

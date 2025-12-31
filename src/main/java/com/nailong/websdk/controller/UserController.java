@@ -1,15 +1,12 @@
 package com.nailong.websdk.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nailong.websdk.domain.Authorization;
-import com.nailong.websdk.domain.HttpRsp;
-import com.nailong.websdk.domain.LoginBody;
-import com.nailong.websdk.domain.UserSetDataRequest;
-import com.nailong.websdk.domain.vo.UserVo;
+import com.nailong.websdk.model.dto.AuthorizationDto;
+import com.nailong.websdk.model.HttpRsp;
+import com.nailong.websdk.model.dto.LoginBodyDto;
+import com.nailong.websdk.model.dto.UserSetDataDto;
+import com.nailong.websdk.model.vo.UserVo;
 import com.nailong.websdk.service.IUserService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +21,13 @@ public class UserController {
     private final IUserService userService;
 
     @RequestMapping(path = {"/login", "/quick-login", "/detail"})
-    public HttpRsp login(HttpServletRequest handler, @Nullable @RequestBody LoginBody body) throws NoSuchAlgorithmException {
+    public HttpRsp login(HttpServletRequest handler, @Nullable @RequestBody LoginBodyDto body) throws NoSuchAlgorithmException {
         // authorization 来自于拦截器中添加的属性 - authInfo
-        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
+        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute("authInfo");
 
         // 将认证信息移交给 LoginBody
         if (body != null) {
-            body.setAuthorization(authorization);
+            body.setAuthorizationDto(authorizationDto);
         }
 
         UserVo<Object> userVo = userService.getOrCreateUserResult(body);
@@ -47,11 +44,11 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/set", "/set-info"})
-    public HttpRsp infoSet(HttpServletRequest handler, @RequestBody UserSetDataRequest body) {
+    public HttpRsp infoSet(HttpServletRequest handler, @RequestBody UserSetDataDto body) {
         // authorization 来自于拦截器中添加的属性 - authInfo
-        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
+        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute("authInfo");
 
-        int retCode = userService.getSetInfoRetCode(authorization, body);
+        int retCode = userService.getSetInfoRetCode(authorizationDto, body);
 
         if (retCode != 0) {
             return HttpRsp.error(retCode, "Error");

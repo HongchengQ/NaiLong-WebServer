@@ -1,7 +1,7 @@
 package com.nailong.websdk.controller;
 
-import com.nailong.websdk.domain.Authorization;
-import com.nailong.websdk.domain.HttpRsp;
+import com.nailong.websdk.model.dto.AuthorizationDto;
+import com.nailong.websdk.model.HttpRsp;
 import com.nailong.websdk.service.ICommonService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ public class CommonController {
     @RequestMapping(path = "/config")
     public HttpRsp config(HttpServletRequest handler) throws IOException {
         // authorization 来自于拦截器中添加的属性 - authInfo
-        Authorization authorization = (Authorization) handler.getAttribute("authInfo");
-        return commonService.queryClientConfig(authorization);
+        AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute("authInfo");
+        return commonService.queryClientConfig(authorizationDto);
     }
 
     @RequestMapping(path = "/client-code")
@@ -37,8 +37,8 @@ public class CommonController {
     }
 
     @RequestMapping(path = "/test")
-    public String test(@RequestHeader("Authorization") Authorization ctxAuthorization) {
-        IO.println(ctxAuthorization.getSign());
+    public String test(@RequestHeader("Authorization") AuthorizationDto ctxAuthorizationDto) {
+        IO.println(ctxAuthorizationDto.getSign());
         return "test";
     }
 

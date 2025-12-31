@@ -1,9 +1,9 @@
 package com.nailong.websdk.service.impl;
 
 import com.nailong.websdk.dao.UserRepository;
-import com.nailong.websdk.domain.AuthRequest;
-import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.vo.GameMotherAuthVo;
+import com.nailong.websdk.model.dto.AuthDto;
+import com.nailong.websdk.model.po.User;
+import com.nailong.websdk.model.vo.GameMotherAuthVo;
 import com.nailong.websdk.service.IGameMotherService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class GameMotherUserService extends UserService implements IGameMotherSer
     }
 
     @Override
-    public GameMotherAuthVo getAuth(AuthRequest body) throws NoSuchAlgorithmException {
+    public GameMotherAuthVo getAuth(AuthDto body) throws NoSuchAlgorithmException {
         User user = getOrCreateUserFromBody(body);
 
         if (user == null) return null;
@@ -29,7 +29,7 @@ public class GameMotherUserService extends UserService implements IGameMotherSer
                 .build();
     }
 
-    private User getOrCreateUserFromBody(AuthRequest body) {
+    private User getOrCreateUserFromBody(AuthDto body) {
         String openId = body.getAccount();
 
         User user = userRepository.queryUserByOpenId(openId);

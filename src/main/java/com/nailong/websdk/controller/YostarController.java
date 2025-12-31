@@ -1,10 +1,9 @@
 package com.nailong.websdk.controller;
 
-import com.nailong.websdk.domain.AuthRequest;
-import com.nailong.websdk.domain.HttpRsp;
-import com.nailong.websdk.domain.vo.GameMotherAuthVo;
+import com.nailong.websdk.model.dto.AuthDto;
+import com.nailong.websdk.model.HttpRsp;
+import com.nailong.websdk.model.vo.GameMotherAuthVo;
 import com.nailong.websdk.service.IGameMotherService;
-import com.nailong.websdk.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ public class YostarController {
     private final IGameMotherService gameMotherService;
 
     @RequestMapping(path = "/get-auth")
-    public HttpRsp getAuth(@Validated @RequestBody AuthRequest body) throws NoSuchAlgorithmException {
+    public HttpRsp getAuth(@Validated @RequestBody AuthDto body) throws NoSuchAlgorithmException {
         GameMotherAuthVo AuthVo = gameMotherService.getAuth(body);
         if (AuthVo == null) {
             return HttpRsp.error(100403, "Error");

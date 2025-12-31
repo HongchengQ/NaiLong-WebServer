@@ -1,18 +1,18 @@
 package com.nailong.websdk.service;
 
-import com.nailong.websdk.domain.Authorization;
-import com.nailong.websdk.domain.LoginBody;
-import com.nailong.websdk.domain.UserSetDataRequest;
-import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.vo.UserVo;
+import com.nailong.websdk.model.dto.AuthorizationDto;
+import com.nailong.websdk.model.dto.LoginBodyDto;
+import com.nailong.websdk.model.dto.UserSetDataDto;
+import com.nailong.websdk.model.po.User;
+import com.nailong.websdk.model.vo.UserVo;
 
 import java.security.NoSuchAlgorithmException;
 
 public interface IUserService {
 
-    User getAccountFromHeader(Authorization authorization);
+    User getAccountFromHeader(AuthorizationDto authorizationDto);
 
-    UserVo<Object> getOrCreateUserResult(LoginBody body) throws NoSuchAlgorithmException;
+    UserVo<Object> getOrCreateUserResult(LoginBodyDto body) throws NoSuchAlgorithmException;
 
-    int getSetInfoRetCode(Authorization authorization, UserSetDataRequest body);
+    int getSetInfoRetCode(AuthorizationDto authorizationDto, UserSetDataDto body);
 }

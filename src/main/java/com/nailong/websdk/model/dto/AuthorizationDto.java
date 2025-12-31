@@ -1,14 +1,12 @@
-package com.nailong.websdk.domain;
+package com.nailong.websdk.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.PrimitiveIterator;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Authorization {
+public class AuthorizationDto {
     @NonNull
     @JsonProperty("Head")
     private Head head;

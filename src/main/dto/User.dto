@@ -1,5 +1,5 @@
-export com.nailong.websdk.domain.po.User
-    -> package com.nailong.websdk.domain.dto
+export com.nailong.websdk.model.po.User
+    -> package com.nailong.websdk.model.dto
 
 // Input 用作保存指令输入
 input UserInput {

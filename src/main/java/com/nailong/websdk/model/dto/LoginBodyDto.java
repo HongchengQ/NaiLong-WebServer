@@ -1,15 +1,14 @@
-package com.nailong.websdk.domain;
+package com.nailong.websdk.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginBody {
+public class LoginBodyDto {
     @JsonProperty("Type")
     String type;
 
@@ -25,5 +24,5 @@ public class LoginBody {
     @JsonProperty("Secret")
     String secret;
 
-    Authorization authorization;
+    AuthorizationDto authorizationDto;
 }

@@ -1,6 +1,6 @@
 package com.nailong.websdk.utils;
 
-import com.nailong.websdk.domain.LoginBody;
+import com.nailong.websdk.model.dto.LoginBodyDto;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,13 +26,13 @@ public class UserUtils {
         return Utils.bytesToHex(bytes);
     }
 
-    public static String createSessionKey(LoginBody loginBody) throws NoSuchAlgorithmException {
+    public static String createSessionKey(LoginBodyDto loginBodyDto) throws NoSuchAlgorithmException {
         byte[] random = new byte[8];
 
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(random);
 
-        String temp = loginBody.toString() + System.currentTimeMillis() + secureRandom;
+        String temp = loginBodyDto.toString() + System.currentTimeMillis() + secureRandom;
 
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] bytes = md.digest(temp.getBytes());

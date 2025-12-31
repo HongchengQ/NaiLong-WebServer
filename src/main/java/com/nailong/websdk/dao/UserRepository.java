@@ -1,11 +1,11 @@
 package com.nailong.websdk.dao;
 
 import com.nailong.websdk.config.AppProperties;
-import com.nailong.websdk.domain.dto.UserInput;
-import com.nailong.websdk.domain.po.NebulaAccount;
-import com.nailong.websdk.domain.po.Tables;
-import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.po.UserTable;
+import com.nailong.websdk.model.dto.UserInput;
+import com.nailong.websdk.model.po.NebulaAccount;
+import com.nailong.websdk.model.po.Tables;
+import com.nailong.websdk.model.po.User;
+import com.nailong.websdk.model.po.UserTable;
 import com.nailong.websdk.exception.CommonException;
 import com.nailong.websdk.utils.HttpClientUtil;
 import lombok.RequiredArgsConstructor;

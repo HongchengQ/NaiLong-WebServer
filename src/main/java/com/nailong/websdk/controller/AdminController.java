@@ -1,8 +1,5 @@
 package com.nailong.websdk.controller;
 
-import com.nailong.websdk.domain.dto.UserInput;
-import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.po.UserDraft;
 import com.nailong.websdk.proto.Pb;
 import com.nailong.websdk.utils.AeadHelper;
 import com.nailong.websdk.utils.Utils;

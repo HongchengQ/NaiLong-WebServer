@@ -1,11 +1,11 @@
 package com.nailong.websdk.service.impl;
 
 import com.nailong.websdk.dao.UserRepository;
-import com.nailong.websdk.domain.Authorization;
-import com.nailong.websdk.domain.LoginBody;
-import com.nailong.websdk.domain.UserSetDataRequest;
-import com.nailong.websdk.domain.po.User;
-import com.nailong.websdk.domain.vo.UserVo;
+import com.nailong.websdk.model.dto.AuthorizationDto;
+import com.nailong.websdk.model.dto.LoginBodyDto;
+import com.nailong.websdk.model.dto.UserSetDataDto;
+import com.nailong.websdk.model.po.User;
+import com.nailong.websdk.model.vo.UserVo;
 import com.nailong.websdk.service.IUserService;
 import com.nailong.websdk.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class UserService implements IUserService {
     protected final UserRepository userRepository;
 
     @Override
-    public UserVo<Object> getOrCreateUserResult(LoginBody body) throws NoSuchAlgorithmException {
-        User user = getAccountFromHeader(body.getAuthorization());
+    public UserVo<Object> getOrCreateUserResult(LoginBodyDto body) throws NoSuchAlgorithmException {
+        User user = getAccountFromHeader(body.getAuthorizationDto());
 
         if (user == null) {
             user = this.getOrCreateUserFromBody(body);
@@ -35,7 +35,7 @@ public class UserService implements IUserService {
         }
 
         // 返回 user 数据
-        String pidName = body.getAuthorization().getHead().getPid();
+        String pidName = body.getAuthorizationDto().getHead().getPid();
         return result(pidName, user);
     }
 
@@ -47,7 +47,7 @@ public class UserService implements IUserService {
      * @return
      */
     @Override
-    public User getAccountFromHeader(Authorization head) {
+    public User getAccountFromHeader(AuthorizationDto head) {
         if (head == null) {
             return null;
         }
@@ -62,8 +62,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public int getSetInfoRetCode(Authorization authorization, UserSetDataRequest body) {
-        User user = getAccountFromHeader(authorization);
+    public int getSetInfoRetCode(AuthorizationDto authorizationDto, UserSetDataDto body) {
+        User user = getAccountFromHeader(authorizationDto);
         if (user == null) return 100403; // TOKEN_AUTH_FAILED
 
         String key = body.getKey();
@@ -73,8 +73,8 @@ public class UserService implements IUserService {
             return 100110; //VALID_FAIL
         }
 
-        String token = authorization.getHead().getToken();
-        Long uid = authorization.getHead().getUid();
+        String token = authorizationDto.getHead().getToken();
+        Long uid = authorizationDto.getHead().getUid();
         if (uid == null || uid == 0) {
             try {
                 uid = userRepository.queryUserByLoginToken(token).id();
@@ -94,21 +94,21 @@ public class UserService implements IUserService {
     /**
      * body 里的 token 是验证码
      *
-     * @param loginBody
+     * @param loginBodyDto
      * @return
      */
-    private User getOrCreateUserFromBody(LoginBody loginBody) throws NoSuchAlgorithmException {
-        User user = userRepository.queryUserByLoginToken(loginBody.getToken());
+    private User getOrCreateUserFromBody(LoginBodyDto loginBodyDto) throws NoSuchAlgorithmException {
+        User user = userRepository.queryUserByLoginToken(loginBodyDto.getToken());
 
         if (user != null) {
             return user;
         }
 
-        String openId = loginBody.getOpenId();
+        String openId = loginBodyDto.getOpenId();
         user = userRepository.queryUserByOpenId(openId);
         if (user == null) {
             // 创建账号
-            user = userRepository.createUser(openId, null, UserUtils.createSessionKey(loginBody));
+            user = userRepository.createUser(openId, null, UserUtils.createSessionKey(loginBodyDto));
         }
 
         return user;

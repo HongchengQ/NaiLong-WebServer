@@ -3,7 +3,7 @@ package com.nailong.websdk.advice;
 import com.nailong.websdk.exception.AuthorizationHeadException;
 import com.nailong.websdk.exception.BadRequestException;
 import com.nailong.websdk.exception.CommonException;
-import com.nailong.websdk.domain.HttpRsp;
+import com.nailong.websdk.model.HttpRsp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

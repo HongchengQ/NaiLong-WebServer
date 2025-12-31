@@ -1,4 +1,4 @@
-package com.nailong.websdk.domain;
+package com.nailong.websdk.model;
 
 import com.nailong.websdk.exception.CommonException;
 import lombok.AllArgsConstructor;

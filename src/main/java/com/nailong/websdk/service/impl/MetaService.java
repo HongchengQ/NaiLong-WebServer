@@ -2,7 +2,7 @@ package com.nailong.websdk.service.impl;
 
 import com.nailong.websdk.config.AppProperties;
 import com.nailong.websdk.config.AppProperties.GateServer;
-import com.nailong.websdk.domain.HotfixPatchList;
+import com.nailong.websdk.model.bo.HotfixPatchList;
 import com.nailong.websdk.enums.HotFixLocalPathEnum;
 import com.nailong.websdk.service.IMetaService;
 import com.nailong.websdk.utils.AeadHelper;

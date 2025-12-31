@@ -1,4 +1,4 @@
-package com.nailong.websdk.domain.po;
+package com.nailong.websdk.model.po;
 
 import org.babyfish.jimmer.sql.*;
 import org.jspecify.annotations.Nullable;
