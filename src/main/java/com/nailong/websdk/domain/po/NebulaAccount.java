@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountMongoPo {
+public class NebulaAccount {
     private String uid;
 
     private String email;
@@ -22,18 +22,18 @@ public class AccountMongoPo {
     private Set<String> permissions;
 
     private int reservedPlayerUid;
-    private long createdAt;
+    private Long createdAt;
 
-    public AccountMongoPo(User user) {
+    public NebulaAccount(User user) {
         this.uid = String.valueOf(user.id());
         this.email = user.openId();
-        this.code = "0";
+        this.code = user.password();
         this.nickname = user.nickName();
         this.picture = "";
         this.loginToken = user.loginToken();
         this.gameToken = user.loginToken();
         this.permissions = null;
         this.reservedPlayerUid = 0;
-        this.createdAt = 0;
+        this.createdAt = user.createdTime();
     }
 }

@@ -133,8 +133,9 @@ public class UserService implements IUserService {
         String userOpenId = user.openId();
         String userName = user.nickName();
         String userToken = user.loginToken();
-//        long userCreatedAt = user.createdAt();
-        long userCreatedAt = 0;
+        // userCreatedAt
+        Long userCreatedTime = user.createdTime();
+        long userCreatedAt = userCreatedTime == null ? 0 : userCreatedTime;
 
         if (userToken == null) {
             userToken = generateLoginToken(user);
@@ -148,7 +149,8 @@ public class UserService implements IUserService {
                         .id(userIdNum)
                         .nickName(userName)
                         .picture("")
-                        .state(1).createdAt(userCreatedAt)
+                        .state(1)
+                        .createdAt(userCreatedAt)
                         .build());
 
 

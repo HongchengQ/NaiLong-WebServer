@@ -35,5 +35,6 @@ public interface User {
     @Nullable
     String loginToken();
 
-    Long createdAt();
+    @Nullable
+    Long createdTime();
 }

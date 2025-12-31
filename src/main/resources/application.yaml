@@ -26,7 +26,7 @@ app:
       gateServerAddress: "http://127.0.0.1/agent-zone-cn"
       reportServerAddress: "http://127.0.0.1/report"
       bigVersion: 1.4 # 大版本号
-      dataVersion: 76 # 小版本号
+      dataVersion: 77 # 小版本号
       statusCode: 1
       zoneId: 1
     tw:

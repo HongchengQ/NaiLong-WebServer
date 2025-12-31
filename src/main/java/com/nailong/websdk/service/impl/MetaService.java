@@ -114,35 +114,35 @@ public class MetaService implements IMetaService {
             }
         }
 
-        // 每30秒检查一次文件是否被修改
+        // 定时检查文件是否被修改
         scheduledExecutorService.scheduleAtFixedRate(() -> checkForFileChanges(basePath), 30, 60, TimeUnit.SECONDS);
     }
 
     private void checkForFileChanges(String basePath) {
         for (HotFixLocalPathEnum hotFixLocalPathEnum : HotFixLocalPathEnum.values()) {
             String path = hotFixLocalPathEnum.getLocalPath();
+            String name = hotFixLocalPathEnum.name();
+            String region = hotFixLocalPathEnum.getRegion();
+
             File file = new File(basePath + path);
+            if (!file.exists())
+                continue;
+            long currentModified = file.lastModified();
 
-            if (file.exists()) {
-                long currentModified = file.lastModified();
-                Long lastModified = fileLastModifiedMap.get(path);
+            Long lastModified = fileLastModifiedMap.get(path);
 
-                if (lastModified == null || currentModified > lastModified) {
-                    // 文件被修改，更新缓存
-                    String name = hotFixLocalPathEnum.name();
-                    String region = hotFixLocalPathEnum.getRegion();
+            if (lastModified == null || currentModified > lastModified) {
+                // 文件被修改，更新缓存
+                try {
+                    HotfixPatchList hotfixPatchList = FileUtils.readHotFixPatch(path);
+                    byte[] patchBytes = hotfixPatchList.toProto().toByteArray();
+                    byte[] encryptPatchBytes = AeadHelper.encryptCBC(patchBytes, region);
 
-                    try {
-                        HotfixPatchList hotfixPatchList = FileUtils.readHotFixPatch(path);
-                        byte[] patchBytes = hotfixPatchList.toProto().toByteArray();
-                        byte[] encryptPatchBytes = AeadHelper.encryptCBC(patchBytes, region);
-
-                        metaHotfixPatchListMap.put(name, encryptPatchBytes);
-                        fileLastModifiedMap.put(path, currentModified);
-                        log.info("热更文件 {} 已通过定期检查更新", name);
-                    } catch (Exception e) {
-                        log.warn("{} 更新热更清单时发生错误", name, e);
-                    }
+                    metaHotfixPatchListMap.put(name, encryptPatchBytes);
+                    fileLastModifiedMap.put(path, currentModified);
+                    log.info("热更文件 {} 已通过定期检查更新", name);
+                } catch (Exception e) {
+                    log.warn("{} 更新热更清单时发生错误", name, e);
                 }
             }
         }

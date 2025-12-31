@@ -3,15 +3,15 @@ export com.nailong.websdk.domain.po.User
 
 // Input 用作保存指令输入
 input UserInput {
-    #allScalars(this)
+    #allScalars
 }
 
 // View 用作查询输出
 UserView {
-    #allScalars(this)
+    #allScalars
 }
 
 // Specification用作查询参数
 specification UserSpecification {
-    #allScalars(this)
+    #allScalars
 }
