@@ -23,7 +23,7 @@ public class UserController {
 
     @RequestMapping(path = {"/login", "/quick-login", "/detail"})
     public HttpRsp login(HttpServletRequest handler, @Nullable @RequestBody LoginBodyDto body) throws NoSuchAlgorithmException {
-        // authorization 来自于拦截器中添加的属性 - authInfo
+        // authorization 来自于拦截器中添加的属性
         AuthorizationDto authorizationDto = (AuthorizationDto) handler.getAttribute(AUTH_INFO.getStr());
 
         // 将认证信息移交给 LoginBody

@@ -11,6 +11,7 @@ import com.nailong.websdk.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -92,23 +93,38 @@ public class UserService implements IUserService {
     }
 
     /**
-     * body 里的 token 是验证码
+     * 外服客户端只查询
+     * 国服客户端会查询并创建 user
      *
-     * @param loginBodyDto
-     * @return
+     * @param loginBodyDto body 里的 token 是验证码
+     * @return User 从数据库获取
      */
     private User getOrCreateUserFromBody(LoginBodyDto loginBodyDto) throws NoSuchAlgorithmException {
-        User user = userRepository.queryUserByLoginToken(loginBodyDto.getToken());
+        String token = loginBodyDto.getToken();
+        String openId = loginBodyDto.getOpenId();
 
-        if (user != null) {
-            return user;
+        User user = null;
+
+        // 通过 token 获取 user
+        // user 为空 返回 null
+        if (!ObjectUtils.isEmpty(token)) {
+            user = userRepository.queryUserByLoginToken(token);
+
+            if (user != null) {
+                return user;
+            }
         }
 
-        String openId = loginBodyDto.getOpenId();
-        user = userRepository.queryUserByOpenId(openId);
-        if (user == null) {
-            // 创建账号
-            user = userRepository.createUser(openId, null, UserUtils.createSessionKey(loginBodyDto));
+        // 国服特有
+        // 客户端有时候会在这里创建用户 内容都在 body
+        // 通过 openId 获取 user
+        // user 为空 创建新 user
+        if (!ObjectUtils.isEmpty(openId)) {
+            user = userRepository.queryUserByOpenId(openId);
+            if (user == null) {
+                // 创建账号
+                user = userRepository.createUser(openId, null, UserUtils.createSessionKey(loginBodyDto));
+            }
         }
 
         return user;
