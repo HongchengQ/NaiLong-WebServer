@@ -18,6 +18,12 @@ jimmer:
   pretty-sql: true
   database-validation-mode: ERROR
 
+logging:
+  level:
+    root: INFO
+    # web 请求与响应日志
+    org.springframework.web: DEBUG
+
 app:
   # 游戏服列表 最多配置五个区域 [cn tw jp kr global]
   gateServerMap:
