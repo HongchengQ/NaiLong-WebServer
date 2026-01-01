@@ -103,7 +103,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public Object handleRuntimeException(Exception e) {
         log.error("其他异常 : ", e);
-        return processResponse(new CommonException("服务器内部异常", 500));
+        return processResponse(new CommonException("服务器内部异常", 100500));
     }
 
     private ResponseEntity<Object> processResponse(CommonException e) {
