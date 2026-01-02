@@ -2,7 +2,7 @@ package com.nailong.websdk.exception;
 
 public class BadRequestException extends CommonException{
 
-    public static final int ERROR_CODE = 1000400;
+    public static final int ERROR_CODE = 100400;
 
     public BadRequestException(String message) {
         super(message, ERROR_CODE);

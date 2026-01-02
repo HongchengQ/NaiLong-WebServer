@@ -1,12 +1,12 @@
 package com.nailong.websdk.dao;
 
 import com.nailong.websdk.config.AppProperties;
+import com.nailong.websdk.exception.CommonException;
 import com.nailong.websdk.model.dto.UserInput;
 import com.nailong.websdk.model.po.NebulaAccount;
 import com.nailong.websdk.model.po.Tables;
 import com.nailong.websdk.model.po.User;
 import com.nailong.websdk.model.po.UserTable;
-import com.nailong.websdk.exception.CommonException;
 import com.nailong.websdk.utils.HttpClientUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -82,7 +82,6 @@ public class UserRepository {
                 .where(userTable.id().eq(userId))
                 .set(userTable.nickName(), name)
                 .execute();
-        queryUserByOpenId(queryUserById(userId).openId());
     }
 
     public void updateToken(Long id, String loginToken) {
@@ -91,7 +90,6 @@ public class UserRepository {
                 .where(userTable.id().eq(id))
                 .set(userTable.loginToken(), loginToken)
                 .execute();
-        queryUserById(id);
     }
 
     public void updateToken(User user, String loginToken) {

@@ -5,13 +5,16 @@ import org.jspecify.annotations.Nullable;
 
 /*
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `open_id` varchar(32) NOT NULL,
   `password` varchar(32) DEFAULT NULL,
   `nick_name` varchar(32) DEFAULT NULL,
   `login_token` varchar(88) DEFAULT NULL,
-  `created_at` int DEFAULT NULL,
-  PRIMARY KEY (`id` DESC,`open_id`) USING BTREE
+  `created_time` bigint unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_id` (`id`),
+  KEY `idx_open_id` (`open_id`),
+  KEY `idx_login_token` (`login_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
  */
 
@@ -28,13 +31,12 @@ public interface User {
     @Nullable
     String password();
 
-    @Key
     @Nullable
     String nickName();
 
+    @Key
     @Nullable
     String loginToken();
 
-    @Nullable
     Long createdTime();
 }
