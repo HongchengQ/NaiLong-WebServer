@@ -10,7 +10,7 @@ CREATE TABLE `user` (
   `password` varchar(32) DEFAULT NULL,
   `nick_name` varchar(32) DEFAULT NULL,
   `login_token` varchar(88) DEFAULT NULL,
-  `created_time` bigint unsigned NOT NULL,
+  `created_time` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_id` (`id`),
   KEY `idx_open_id` (`open_id`),
@@ -38,5 +38,5 @@ public interface User {
     @Nullable
     String loginToken();
 
-    Long createdTime();
+    long createdTime();
 }

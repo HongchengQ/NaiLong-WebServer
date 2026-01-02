@@ -148,28 +148,36 @@ public class UserRepository {
                     .stream()
                     .findFirst()
                     .orElse(null);
-            if (user != null) {
-                // 查询时向远程同步
-                // 这是为了防止之前增删改时由于可能无法意料的异常导致不能同步
-                sendUserToMiddleware(user);
-            }
         } catch (Exception e) {
             // 不要抛异常 应该向上层返回 null 由上层处理
-            log.error("通过openid查找用户时发生异常 向上层返回null", e);
+            log.warn("通过 openid 查找用户时发生异常 向上层返回 null", e);
+        }
+
+        if (user != null) {
+            // 查询时向远程同步
+            // 这是为了防止之前增删改时由于可能无法意料的异常导致不能同步
+            sendUserToMiddleware(user);
         }
 
         return user;
     }
 
     public User queryUserByLoginToken(String token) {
-        User user;
-        user = sqlClient.createQuery(userTable)
-                .where(userTable.loginToken().eq(token))
-                .select(userTable)
-                .execute()
-                .stream()
-                .findFirst()
-                .orElse(null);
+        User user = null;
+
+        try {
+            user = sqlClient.createQuery(userTable)
+                    .where(userTable.loginToken().eq(token))
+                    .select(userTable)
+                    .execute()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+            // 不要抛异常 应该向上层返回 null 由上层处理
+            log.warn("通过 token 查找用户时发生异常 向上层返回 null", e);
+        }
+
         if (user != null) {
             // 查询时向远程同步
             // 这是为了防止之前增删改时由于可能无法意料的异常导致不能同步

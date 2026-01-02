@@ -149,9 +149,7 @@ public class UserService implements IUserService {
         String userOpenId = user.openId();
         String userName = user.nickName();
         String userToken = user.loginToken();
-        // userCreatedAt
-        Long userCreatedTime = user.createdTime();
-        long userCreatedAt = userCreatedTime == null ? 0 : userCreatedTime;
+        long userCreatedAt = user.createdTime();
 
         if (userToken == null) {
             userToken = generateLoginToken(user);
