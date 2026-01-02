@@ -54,7 +54,13 @@ public class ResController {
     }
 
     @RequestMapping(path = "/test")
-    public String test() {
+    public ModelAndView test(HttpServletResponse rsp) throws IOException {
+        rsp.sendRedirect("http://127.0.0.1:1178" + "/res/test1");
+        return null;
+    }
+
+    @RequestMapping(path = "/test1")
+    public String testOne() {
         return "test";
     }
 }
