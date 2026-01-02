@@ -15,4 +15,6 @@
           tooltipTitle="" icon="" textColor="" backgroundColor=""/>
     <tree path="/src/main/java/com/nailong/websdk/model/vo" title="返回前端内容"/>
     <tree path="/src/main/java/com/nailong/websdk/model/bo" title="业务对象"/>
+    <tree path="/src/main/java/com/nailong/websdk/controller/official" title="官方定义接口"/>
+    <tree path="/src/main/java/com/nailong/websdk/controller/expand" title="自定义扩展接口"/>
 </trees>

@@ -1,4 +1,4 @@
-package com.nailong.websdk.controller;
+package com.nailong.websdk.controller.official;
 
 import com.nailong.websdk.exception.BadRequestException;
 import com.nailong.websdk.exception.CommonException;
@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/admin", method = {RequestMethod.GET, RequestMethod.POST})

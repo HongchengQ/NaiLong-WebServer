@@ -1,6 +1,7 @@
 package com.nailong.websdk.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nailong.websdk.utils.JsonUtils;
 import lombok.*;
 
 @Data
@@ -11,8 +12,9 @@ public class AuthorizationDto {
     @JsonProperty("Head")
     private Head head;
 
+    @NonNull
     @JsonProperty("Sign")
-    private String Sign;
+    private String sign;
 
     @Data
     @NoArgsConstructor
@@ -60,5 +62,9 @@ public class AuthorizationDto {
 
         @JsonProperty("Token")
         private String token;
+    }
+
+    public static AuthorizationDto parseStrToObject(String str) {
+        return JsonUtils.parseJsonStrToObject(str, AuthorizationDto.class);
     }
 }

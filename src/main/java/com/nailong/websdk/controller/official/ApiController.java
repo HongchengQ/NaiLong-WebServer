@@ -1,4 +1,4 @@
-package com.nailong.websdk.controller;
+package com.nailong.websdk.controller.official;
 
 import com.nailong.websdk.config.AppProperties;
 import com.nailong.websdk.model.HttpRsp;

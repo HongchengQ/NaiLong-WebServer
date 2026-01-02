@@ -1,4 +1,4 @@
-package com.nailong.websdk.controller;
+package com.nailong.websdk.controller.official;
 
 import com.nailong.websdk.service.IMetaService;
 import jakarta.servlet.http.HttpServletRequest;

@@ -15,6 +15,6 @@ public enum ServletAttributeEnum {
 
     @Override
     public String toString() {
-        return "ServletAttributeEnum." + this.str;
+        return this.str;
     }
 }
